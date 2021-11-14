@@ -3,7 +3,7 @@
 *.o
 *.a
 README
-bin/
+# bin/
 keepalived.spec
 *~
 *.swp

@@ -1,0 +1,14 @@
+FROM bevisy/centos:8
+LABEL maintainers="EasyStack Inc." name="keepalived"
+
+RUN curl -s -x http://192.168.182.172:1080 https://raw.githubusercontent.com/Bevisy/keepalived/master/bin/dumb-init_1.1.3_$(arch) -o /usr/local/bin/dumb-init && \
+    chmod +x /usr/local/bin/dumb-init
+RUN rm -f /etc/localtime && \
+    ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN yum makecache && \
+    yum install -y keepalived hostname socat nc && \
+    yum clean all && \
+    rm -rf /var/lib/yum/yumdb
+
+# 1. 利用 qemu 模拟 aarch64 架构，制作镜像 bevisy/centos:8
+# 2. 利用上一步骤基础镜像，制作 keepalived aarch64 镜像
